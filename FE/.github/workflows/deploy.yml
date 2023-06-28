@@ -1,0 +1,32 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches:
+      - prod
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: env setting
+        run: |
+          echo "REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }}" >> .env
+          echo "REACT_APP_MAIN_COLOR=${{ secrets.REACT_APP_MAIN_COLOR }}" >> .env
+          echo "REACT_APP_GROUP=${{ secrets.REACT_APP_GROUP }}" >> .env
+          echo "REACT_APP_FANDOM=${{ secrets.REACT_APP_FANDOM }}" >> .env
+
+      - name: Build React
+        run: |
+          npm install
+          CI=false npm run build
+
+      - name: Deploy to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --recursive --region ap-northeast-2 build s3://${{ secrets.AWS_S3_BUCKET }}

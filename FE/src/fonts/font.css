@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+@font-face {
+	font-family: 'NanumSquare';
+	src: url('./NanumSquareL.otf') format('opentype');
+	font-weight: 200;
+	font-style: lighter;
+	unicode-range: U+AC00-D7AF, U+00-7F;
+}
+
+@font-face {
+	font-family: 'NanumSquare';
+	src: url('./NanumSquareR.otf') format('opentype');
+	font-weight: 400;
+	font-style: normal;
+	unicode-range: U+AC00-D7AF, U+00-7F;
+}
+
+@font-face {
+	font-family: 'NanumSquare';
+	src: url('./NanumSquareB.otf') format('opentype');
+	font-weight: 600;
+	font-style: bold;
+	unicode-range: U+AC00-D7AF, U+00-7F;
+}
+
+@font-face {
+	font-family: 'NanumSquare';
+	src: url('./NanumSquareEB.otf') format('opentype');
+	font-weight: 800;
+	font-style: bolder;
+	unicode-range: U+AC00-D7AF, U+00-7F;
+}
+
+@font-face {
+	font-family: 'NotoSans';
+	src: url('./NotoSansKR-Light.otf') format('opentype');
+	font-weight: 200;
+	font-style: lighter;
+}
+
+@font-face {
+	font-family: 'NotoSans';
+	src: url('./NotoSansKR-Regular.otf') format('opentype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'NotoSans';
+	src: url('./NotoSansKR-Bold.otf') format('opentype');
+	font-weight: 600;
+	font-style: bold;
+}

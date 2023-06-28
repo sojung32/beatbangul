@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.melody.beatbangul.notice.mapper.NoticeMapper">
+
+    <select id="selectNoticeList" parameterType="Integer" resultType="MyMap">
+        SELECT
+            NOTICE_ID ID
+            , NOTICE_TITLE TITLE
+            , NOTICE_CONTENTS CONTENTS
+            , TO_CHAR(WRITE_DT, 'YYYY-MM-DD') DATE
+        FROM
+            TB_NOTICE
+        ORDER BY
+            WRITE_DT DESC
+        LIMIT #{page}, 5
+    </select>
+
+    <select id="selectNoticeTotal" resultType="Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            TB_NOTICE
+    </select>
+
+</mapper>

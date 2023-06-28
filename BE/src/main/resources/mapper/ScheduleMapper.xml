@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.melody.beatbangul.schedule.mapper.ScheduleMapper">
+
+    <!-- id로 스케줄 상세 조회 : 스케줄 수정 -->
+    <select id="selectScheduleInfoById" parameterType="Integer" resultType="MyMap">
+        SELECT
+            SCHEDULE_ID ID
+            , TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
+            , TO_CHAR(SCHEDULE_TIME, 'HH24:MI') TIME
+            , SCHEDULE_CATEGORY CATEGORY
+            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , SCHEDULE_TITLE TITLE
+            , SCHEDULE_LINK LINK
+            , SCHEDULE_NOTE NOTE
+            , SCHEDULE_EK SEK
+            , SCHEDULE_MH LMH
+            , SCHEDULE_CS LCS
+            , SCHEDULE_HS IHS
+            , SCHEDULE_DG SDG
+            , SCHEDULE_SJ YSJ
+        FROM
+            TB_SCHEDULE
+        WHERE
+            SCHEDULE_ID = #{id}
+    </select>
+
+    <!-- id로 고정 스케줄 상세 조회 : 스케줄 수정 -->
+    <select id="selectFixedInfoById" parameterType="Integer" resultType="MyMap">
+        SELECT
+            SCHEDULE_ID ID
+            , TO_CHAR(SCHEDULE_START_DATE, 'YYYY-MM-DD') START_DATE
+            , TO_CHAR(SCHEDULE_END_DATE, 'YYYY-MM-DD') END_DATE
+            , TO_CHAR(SCHEDULE_TIME, 'HH24:MI') TIME
+            , SCHEDULE_DAY DAY
+            , SCHEDULE_WEEK WEEK
+            , SCHEDULE_CATEGORY CATEGORY
+            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , SCHEDULE_TITLE TITLE
+            , SCHEDULE_NOTE NOTE
+            , SCHEDULE_EK SEK
+            , SCHEDULE_MH LMH
+            , SCHEDULE_CS LCS
+            , SCHEDULE_HS IHS
+            , SCHEDULE_DG SDG
+            , SCHEDULE_SJ YSJ
+        FROM
+            TB_FIXED_SCHEDULE
+        WHERE
+            SCHEDULE_ID = #{id}
+    </select>
+
+    <!-- id로 기념일 상세 조회 : 스케줄 수정 -->
+    <select id="selectAnniversaryInfoById" parameterType="Integer" resultType="MyMap">
+        SELECT
+            ANNIVERSARY_ID ID
+            , TO_CHAR(ANNIVERSARY_DATE, 'YYYY-MM-DD') DATE
+            , ANNIVERSARY_TITLE TITLE
+            , ANNIVERSARY_LINK LINK
+            , ANNIVERSARY_NOTE NOTE
+        FROM
+            TB_ANNIVERSARY
+        WHERE
+            ANNIVERSARY_ID = #{id}
+    </select>
+
+    <!-- 고정스케줄 목록 조회 : 메인 -->
+    <select id="selectFixedList" parameterType="String" resultType="MyMap">
+        SELECT
+            SCHEDULE_ID ID
+            , TO_CHAR(SCHEDULE_START_DATE, 'YYYY-MM-DD') START_DATE
+            , TO_CHAR(SCHEDULE_END_DATE, 'YYYY-MM-DD') END_DATE
+            , TO_CHAR(SCHEDULE_TIME, 'HH24:MI') TIME
+            , getDayName(SCHEDULE_DAY) DAY
+            , CASE WHEN SCHEDULE_WEEK IS NULL THEN NULL ELSE getWeekName(SCHEDULE_WEEK) END WEEK
+            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , SCHEDULE_CATEGORY CATEGORY
+            , SCHEDULE_TITLE TITLE
+            , SCHEDULE_NOTE NOTE
+            , SCHEDULE_EK SEK
+            , SCHEDULE_MH LMH
+            , SCHEDULE_CS LCS
+            , SCHEDULE_HS IHS
+            , SCHEDULE_DG SDG
+            , SCHEDULE_SJ YSJ
+        FROM
+            TB_FIXED_SCHEDULE
+        WHERE
+            SCHEDULE_START_DATE <![CDATA[ <= ]]> current_date()
+            AND (SCHEDULE_END_DATE >= current_date() OR SCHEDULE_END_DATE IS NULL)
+        ORDER BY
+            SCHEDULE_START_DATE
+    </select>
+
+    <!-- 날짜로 생일 조회 : 일자별 조회 -->
+    <select id="selectBirthDayListByDate" parameterType="String" resultType="MyMap">
+        SELECT
+            ANNIVERSARY_ID ID
+            , TO_CHAR(ANNIVERSARY_DATE, 'YYYY-MM-DD') DATE
+            , ANNIVERSARY_TITLE TITLE
+            , ANNIVERSARY_LINK LINK
+            , ANNIVERSARY_NOTE NOTE
+        FROM
+            TB_ANNIVERSARY
+        WHERE
+            ANNIVERSARY_TYPE = 'B'
+            AND TO_CHAR(ANNIVERSARY_DATE, 'YYYYMMDD') = TO_CHAR(#{date}, 'YYYYMMDD')
+        ORDER BY
+            ANNIVERSARY_ID
+    </select>
+
+    <!-- 날짜로 기념일 조회 : 일자별 조회 -->
+    <select id="selectAnniversaryListByDate" parameterType="String" resultType="MyMap">
+        SELECT
+            ANNIVERSARY_ID ID
+            , TO_CHAR(ANNIVERSARY_DATE, 'YYYY-MM-DD') DATE
+            , ANNIVERSARY_TITLE TITLE
+            , ANNIVERSARY_LINK LINK
+            , ANNIVERSARY_NOTE NOTE
+        FROM
+            TB_ANNIVERSARY
+        WHERE
+            ANNIVERSARY_TYPE = 'A'
+            AND TO_CHAR(ANNIVERSARY_DATE, 'YYYYMMDD') = TO_CHAR(#{date}, 'YYYYMMDD')
+        ORDER BY
+            ANNIVERSARY_ID
+    </select>
+
+    <!-- 날짜로 스케줄 조회 : 일자별 조회 -->
+    <select id="selectScheduleListByDate" parameterType="String" resultType="MyMap">
+        SELECT
+            SCHEDULE_ID ID
+            , TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
+            , TO_CHAR(SCHEDULE_TIME, 'HH24:MI') TIME
+            , SCHEDULE_CATEGORY CATEGORY
+            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , SCHEDULE_TITLE TITLE
+            , SCHEDULE_LINK LINK
+            , SCHEDULE_NOTE NOTE
+            , SCHEDULE_EK SEK
+            , SCHEDULE_MH LMH
+            , SCHEDULE_CS LCS
+            , SCHEDULE_HS IHS
+            , SCHEDULE_DG SDG
+            , SCHEDULE_SJ YSJ
+        FROM
+            TB_SCHEDULE
+        WHERE
+            TO_CHAR(SCHEDULE_DATE, 'YYYYMMDD') = TO_CHAR(#{date}, 'YYYYMMDD')
+        ORDER BY
+            SCHEDULE_TIME
+    </select>
+
+    <!-- 월별 스케줄 여부 조회 : 달력 보기 -->
+    <select id="selectScheduleCalendar" parameterType="String" resultType="MyMap">
+        SELECT
+            DISTINCT TO_CHAR(ANNIVERSARY_DATE, 'YYYY-MM-DD') DATE
+        FROM
+            TB_ANNIVERSARY
+        WHERE
+            ANNIVERSARY_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND ANNIVERSARY_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        UNION
+        SELECT
+            DISTINCT TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
+        FROM
+            TB_SCHEDULE
+        WHERE
+            SCHEDULE_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND SCHEDULE_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        ORDER BY
+            DATE
+    </select>
+
+    <!-- 스케줄 추가 -->
+    <insert id="insertSchedule" parameterType="Schedule" useGeneratedKeys="true" keyProperty="scheduleId" keyColumn="SCHEDULE_ID">
+        INSERT INTO TB_SCHEDULE (
+            SCHEDULE_DATE
+            , SCHEDULE_TIME
+            , SCHEDULE_CATEGORY
+            , SCHEDULE_TITLE
+            , SCHEDULE_LINK
+            , SCHEDULE_NOTE
+            , SCHEDULE_EK
+            , SCHEDULE_MH
+            , SCHEDULE_CS
+            , SCHEDULE_HS
+            , SCHEDULE_DG
+            , SCHEDULE_SJ
+            , UPDATE_BY
+            , UPDATE_DT
+        )
+        VALUES(
+            #{scheduleDate}         -- DATE
+            , #{scheduleTime}       -- TIME
+            , #{scheduleCategory}   -- CATEGORY
+            , #{scheduleTitle}      -- TITLE
+            , #{scheduleLink}       -- LINK
+            , #{scheduleNote}       -- NOTE
+            , #{scheduleEk}         -- EK
+            , #{scheduleMh}         -- MH
+            , #{scheduleCs}         -- CS
+            , #{scheduleHs}         -- HS
+            , #{scheduleDg}         -- DG
+            , #{scheduleSj}         -- SJ
+            , #{updateBy}           -- UPDATE BY
+            , NOW()
+        )
+    </insert>
+
+    <!-- 고정 스케줄 추가 -->
+    <insert id="insertFixedSchedule" parameterType="Schedule" useGeneratedKeys="true" keyProperty="scheduleId" keyColumn="SCHEDULE_ID">
+        INSERT INTO TB_FIXED_SCHEDULE (
+            SCHEDULE_START_DATE
+            , SCHEDULE_END_DATE
+            , SCHEDULE_DAY
+            , SCHEDULE_WEEK
+            , SCHEDULE_TIME
+            , SCHEDULE_CATEGORY
+            , SCHEDULE_TITLE
+            , SCHEDULE_NOTE
+            , SCHEDULE_EK
+            , SCHEDULE_MH
+            , SCHEDULE_CS
+            , SCHEDULE_HS
+            , SCHEDULE_DG
+            , SCHEDULE_SJ
+            , UPDATE_BY
+            , UPDATE_DT
+        )
+        VALUES(
+            #{scheduleStartDate}    -- START DATE
+            , #{scheduleEndDate}    -- END DATE
+            , #{scheduleDay}        -- DAY
+            , #{scheduleWeek}       -- WEEK
+            , #{scheduleTime}       -- TIME
+            , #{scheduleCategory}   -- CATEGORY
+            , #{scheduleTitle}      -- TITLE
+            , #{scheduleNote}       -- NOTE
+            , #{scheduleEk}         -- EK
+            , #{scheduleMh}         -- MH
+            , #{scheduleCs}         -- CS
+            , #{scheduleHs}         -- HS
+            , #{scheduleDg}         -- DG
+            , #{scheduleSj}         -- SJ
+            , #{updateBy}           -- UPDATE BY
+            , NOW()
+        )
+    </insert>
+
+    <!-- 기념일 추가 -->
+    <insert id="insertAnniversary" parameterType="Schedule" useGeneratedKeys="true" keyProperty="scheduleId" keyColumn="ANNIVERSARY_ID">
+        INSERT INTO TB_ANNIVERSARY (
+            ANNIVERSARY_TYPE
+            , ANNIVERSARY_DATE
+            , ANNIVERSARY_TITLE
+            , ANNIVERSARY_LINK
+            , ANNIVERSARY_NOTE
+            , UPDATE_BY
+            , UPDATE_DT
+        )
+        VALUES(
+            #{scheduleType}
+            , #{scheduleDate}       -- DATE
+            , #{scheduleTitle}      -- TITLE
+            , #{scheduleLink}       -- LINK
+            , #{scheduleNote}       -- NOTE
+            , #{updateBy}           -- UPDATE BY
+            , NOW()
+        )
+    </insert>
+
+    <!-- 고정 스케줄 추가 후 스케줄 생성 프로시저 호출 -->
+    <select id="callProcedureCreateSchedule" parameterType="HashMap" statementType="CALLABLE">
+        { call createSchedule(CAST(#{id} AS UNSIGNED), #{chooseDate}) }
+    </select>
+
+    <!-- 스케줄 수정 -->
+    <update id="updateSchedule" parameterType="Schedule">
+        UPDATE TB_SCHEDULE
+        SET
+            SCHEDULE_DATE       = #{scheduleDate}
+            , SCHEDULE_TIME     = #{scheduleTime}
+            , SCHEDULE_CATEGORY = #{scheduleCategory}
+            , SCHEDULE_TITLE    = #{scheduleTitle}
+            , SCHEDULE_LINK     = #{scheduleLink}
+            , SCHEDULE_NOTE     = #{scheduleNote}
+            , SCHEDULE_EK       = #{scheduleEk}
+            , SCHEDULE_MH       = #{scheduleMh}
+            , SCHEDULE_CS       = #{scheduleCs}
+            , SCHEDULE_HS       = #{scheduleHs}
+            , SCHEDULE_DG       = #{scheduleDg}
+            , SCHEDULE_SJ       = #{scheduleSj}
+            , UPDATE_BY         = #{updateBy}
+            , UPDATE_DT         = NOW()
+        WHERE
+            SCHEDULE_ID = #{scheduleId}
+    </update>
+
+    <!-- 고정 스케줄 수정 -->
+    <update id="updateFixedSchedule" parameterType="Schedule">
+        UPDATE TB_FIXED_SCHEDULE
+        SET
+            SCHEDULE_END_DATE   = #{scheduleEndDate}
+            , SCHEDULE_DAY      = #{scheduleDay}
+            , SCHEDULE_WEEK     = #{scheduleWeek}
+            , SCHEDULE_TIME     = #{scheduleTime}
+            , SCHEDULE_CATEGORY = #{scheduleCategory}
+            , SCHEDULE_TITLE    = #{scheduleTitle}
+            , SCHEDULE_NOTE     = #{scheduleNote}
+            , SCHEDULE_EK       = #{scheduleEk}
+            , SCHEDULE_MH       = #{scheduleMh}
+            , SCHEDULE_CS       = #{scheduleCs}
+            , SCHEDULE_HS       = #{scheduleHs}
+            , SCHEDULE_DG       = #{scheduleDg}
+            , SCHEDULE_SJ       = #{scheduleSj}
+            , UPDATE_BY         = #{updateBy}
+            , UPDATE_DT         = NOW()
+        WHERE
+            SCHEDULE_ID = #{scheduleId}
+    </update>
+
+    <!-- 기념일 수정 -->
+    <update id="updateAnniversary" parameterType="Schedule">
+        UPDATE TB_ANNIVERSARY
+        SET
+            ANNIVERSARY_DATE       = #{scheduleDate}
+            , ANNIVERSARY_TITLE    = #{scheduleTitle}
+            , ANNIVERSARY_LINK     = #{scheduleLink}
+            , ANNIVERSARY_NOTE     = #{scheduleNote}
+            , UPDATE_BY            = #{updateBy}
+            , UPDATE_DT            = NOW()
+        WHERE
+            ANNIVERSARY_ID = #{scheduleId}
+    </update>
+
+    <!-- 스케줄 삭제 -->
+    <delete id="deleteSchedule" parameterType="Integer">
+        DELETE FROM TB_SCHEDULE
+        WHERE SCHEDULE_ID = #{id}
+    </delete>
+
+    <!-- 고정 스케줄 삭제 -->
+    <delete id="deleteFixedSchedule" parameterType="Integer">
+        DELETE FROM TB_FIXED_SCHEDULE
+        WHERE SCHEDULE_ID = #{id}
+    </delete>
+
+    <!-- 기념일 삭제 -->
+    <delete id="deleteAnniversary" parameterType="Integer">
+        DELETE FROM TB_ANNIVERSARY
+        WHERE ANNIVERSARY_ID = #{id}
+    </delete>
+</mapper>

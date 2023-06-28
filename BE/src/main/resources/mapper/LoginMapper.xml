@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.melody.beatbangul.login.mapper.LoginMapper">
+
+    <insert id="insertUserInfo" parameterType="User">
+        INSERT INTO TB_USER (
+            SERVICE_TYPE
+            , PROVIDE_ID
+            , CONNECT_DT
+            , PROVIDE_REFRESH_TOKEN
+        ) VALUES (
+            #{serviceType}
+            , #{provideId}
+            <if test="connectDt != null">
+            , str_to_date(#{connectDt}, '%Y-%m-%dT%TZ')
+            </if>
+            <if test="connectDt == null">
+            , NOW()
+            </if>
+            , #{provideRefreshToken}
+        )
+    </insert>
+
+    <update id="updateUserInfo" parameterType="User">
+        UPDATE TB_USER
+        SET
+            PROVIDE_REFRESH_TOKEN = #{provideRefreshToken}
+        WHERE
+            SERVICE_TYPE = #{serviceType}
+            AND PROVIDE_ID = #{provideId}
+    </update>
+
+    <select id="selectUserInfoByProvideId" parameterType="String" resultType="User">
+        SELECT
+            USER_ID
+            , SERVICE_TYPE
+            , PROVIDE_ID
+            , CONNECT_DT
+            , PROVIDE_REFRESH_TOKEN
+        FROM
+            TB_USER
+        WHERE
+            PROVIDE_ID = #{provideId}
+    </select>
+
+</mapper>

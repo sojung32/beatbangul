@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.melody.beatbangul.manage.mapper.ManageMapper">
+    <select id="selectCodeListByGroupCode" parameterType="String" resultType="MyMap">
+        SELECT
+            DETAIL_CODE CODE
+            , CODE_NAME NAME
+            , CODE_COLOR COLOR
+            , CODE_BACKGROUND BACKGROUND
+        FROM
+            TB_CODE
+        WHERE
+            GROUP_CODE = #{groupCode}
+            AND USE_YN = 'Y'
+        ORDER BY
+            CODE_ORDER
+    </select>
+</mapper>

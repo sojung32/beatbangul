@@ -1,0 +1,108 @@
+
+* {font-family: 'NanumSquare', 'NotoSans', sans-serif; box-sizing: border-box;}
+html, body, #root, section {height: 100%; margin: 0; background-color: #fff!important;}
+
+body {overflow: hidden;}
+.main {overflow: auto; height: 100%;}
+a {text-decoration: none; color: inherit;}
+
+/* scroll style */
+*::-webkit-scrollbar { width: 0; }
+
+.button-list {
+    display: flex;
+    gap: 10px;
+    margin: 0px 10px 20px;
+    a {
+        flex-grow: 1;
+    }
+    button {
+        flex-grow: 0;
+    }
+}
+.ant-float-btn-icon {
+    width: 22px!important;
+    box-icon {
+        width: 100%;
+        height: 100%;
+        vertical-align: -webkit-baseline-middle;
+        margin-top: 3px;
+    }
+}
+.ant-float-btn-primary, .ant-float-btn-primary .ant-float-btn-body {
+    background-color: $color-main!important;
+    &:hover {
+        background-color: lighten($color-main, 20%)!important;
+    }
+}
+.ant-float-btn-default, .ant-float-btn-default .ant-float-btn-body {
+    background-color: #fff!important;
+}
+.ant-popover-inner {
+    padding-right: 20px;
+}
+.small-font {
+    font-size: $font-xs;
+    color: #999;
+}
+
+/* header */
+header {
+    max-width: $max-width;
+    margin: auto;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    .logo-button {
+        width: $height-header!important;
+        height: $height-header!important;
+        box-shadow: 0 0 5px 0 $color-main!important;
+        .logo {
+            width: 100%;
+            height: 100%;
+            display: block;
+          }
+    }
+    .ant-float-btn-body:hover {
+        background-color: #fff!important;
+    }
+}
+
+/* main */
+main {
+    position: relative;
+    min-height: calc(#{$height-main} - 15px); 
+    width: 100%;
+    max-width: $max-width;
+    background-color: #fff;
+    margin: calc(#{$height-header} + 15px) auto 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* footer */
+footer {
+    width: 100%; 
+    height: $height-footer;
+    position: relative; 
+    padding: 10px 20px;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+    .footer-wrap {
+        max-width: $max-width;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        .contact {
+            display: flex;
+            gap: 5px;
+        }
+        span {
+            font-size: $font-xs;
+        }
+    }
+}

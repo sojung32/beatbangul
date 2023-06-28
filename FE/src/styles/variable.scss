@@ -1,0 +1,21 @@
+/* layout height */
+$height-header: 40px;
+$height-footer: 70px;
+$height-main: calc(calc(100% - #{$height-footer}) - #{$height-header});
+
+/* color */
+$color-main: #42b4e6;
+$color-dark: darken($color-main, 30%);
+$color-default: #000;
+
+/* responsive web size */
+$max-width: 600px;
+
+/* font size */
+$font-xs: 0.7rem;
+$font-s: 0.8rem;
+$font-m: 1rem;
+$font-ml: 1.1rem;
+$font-l: 1.2rem;
+$font-xl: 1.4rem;
+$font-xxl: 2rem;

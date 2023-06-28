@@ -1,0 +1,454 @@
+@import url(../fonts/font.css);
+@import "./variable.scss";
+@import "./common.scss";
+
+.shadow {
+    -webkit-box-shadow: 0px 5px 5px -2px #aaa;
+    -moz-box-shadow: 0px 5px 5px -2px #aaa;
+    box-shadow: 0px 5px 5px -2px #aaa;
+    transition: all .3s;
+}
+
+/* main */
+.main-items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    .main-item {
+        flex-grow: 0;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* loading spinner */
+.spinner-wrap { 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff99;
+    .spinner-component {
+        flex: 0 0 100px;
+        width: 100px;
+        height: 100px;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+/* login */
+.login-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 10px;
+    .login-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        span {
+            font-size: $font-m;
+            font-weight: 600;
+        }
+    }
+    .login-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        gap: 20px;
+        flex: 1 0 300px;
+        .login-button {
+            min-width: 200px;
+            flex: 0 0;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 20px 30px;
+            border: 2px solid $color-main;
+            cursor: pointer;
+            img {
+                height: 20px;
+                width: auto;
+            }
+            span {
+                margin-left: 10px;
+                font-weight: 600;
+                font-size: $font-l;
+                line-height: $font-l;
+            }
+            &.naver {
+                background-color: #03c75a;
+                border: none;
+                span {
+                    color: #fff;;
+                }
+            }
+            &.kakao {
+                background-color: #fee500;
+                border: none;
+                span {
+                    color: rgba(0, 0,  0, 0.85);
+                }
+            }
+            box-icon {
+                height: 20px;
+            }
+        }
+    }
+    .login-explanation {
+        display: flex;
+        width: 100%;
+    }
+}
+
+/* calendar */
+.event-calendar {
+    .calendar-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+        h3 {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        button {
+            margin-bottom: 3px;
+        }
+        .calendar-date-title {
+            padding: 0;
+            input {
+                cursor: pointer;
+                text-align: center;
+                font-size: $font-ml;
+                font-weight: 800;
+            }
+        }
+    }
+    .ant-picker-calendar-date-value {
+        text-align: left;
+    }
+    .ant-picker-calendar-date-content {
+        text-align: right!important;
+    }
+    .ant-picker-content th {
+        text-align: center;
+        padding: 4px 0!important;
+    }
+    .ant-picker-calendar-date-content span {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        color: $color-main;
+    }
+}
+
+.time-list {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    .time-list-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0 30px;
+        h3 {
+            margin: 0;
+            display: inline-block;
+        }
+    }
+}
+.ant-timeline {
+    padding-left: 5px;
+    .ant-timeline-item-head {
+        &:not(.ant-timeline-item-head-custom) {
+            color: $color-main;
+            border-color: $color-main;
+        }
+    }
+    .schedule-date-title {
+        color: $color-dark;
+    }
+}
+
+/* introduce */ 
+.introduce-wrap {
+    padding: 0 10px;
+    h2, h3 {
+        margin: 5px 0;
+    }
+    p {
+        margin: 7px 0;
+        font-size: $font-m;
+    }
+    strong, .dark {
+        color: $color-dark;
+    }
+    .wide {
+        h3 {
+            margin: 20px 0;
+        }
+    }
+}
+
+/* notice */
+.notice-wrap {
+    padding: 0 10px;
+    h2 {
+        margin: 5px 0;
+    }
+    .notice-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .notice-title {
+            font-weight: 600;
+            font-size: $font-m;
+        }
+        .notice-date {
+            font-size: $font-xs;
+            color: #aaa;
+        }
+    }
+    .notice-content {
+        font-size: $font-s;
+        margin-left: 25px;
+    }
+    .ant-collapse-header {
+        padding: 5px 0!important;
+    }
+    .ant-collapse-expand-icon {
+        padding-right: 5px!important;
+    }
+    .ant-collapse-content-box {
+        padding: 0 0 15px !important;
+    }
+}
+
+/* schedule */
+.schedule-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+    .schedule-time {
+        flex: 0 0 65px;
+        font-weight: 600;
+    }
+    .schedule-content {
+        flex: 1 1;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        .schedule-feature {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 2px;
+            .schedule-category {
+                background-color: $color-main;
+                color: white;
+                border-radius: 10px;
+                padding: 2px 10px;
+                font-size: 0.7rem;
+                font-weight: 600;
+            }
+        }
+        .schedule-main {
+            display: flex;
+            align-items: flex-start;
+            .link-button {
+                box-icon {
+                    width: 18px;
+                    height: 18px;
+                }
+            }
+            .schedule-title {
+                font-weight: 600;
+                font-size: 1rem;
+                margin-right: 4px;
+            }
+            .edit-button-list {
+                flex: 0 0;
+                display: flex;
+                flex-wrap: nowrap;
+                button {
+                    color: #ccc;
+                    :hover {
+                        color: #999
+                    }
+                }
+            }
+        }
+        .schedule-note {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+    }
+}
+
+/* form */
+.form-wrap {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    .type-popover {
+        margin-left: 10px;
+        margin-top: 6px;
+        &.close {
+            margin-left: 0px!important;
+        }
+    }
+    button {
+        float: right;
+    }
+    .ant-form-item-explain-error {
+        margin-bottom: 10px;
+    }
+    .form-button-list {
+        display: flex;
+        justify-content: flex-end;
+        .ant-form-item-control-input-content {
+            gap: 7px;
+        }
+    }
+    .form-button .ant-form-item-control {
+        max-width: 100%!important;
+        .ant-form-item-control-input-content {
+            justify-content: flex-end;
+        }
+    }
+    .form-flex {
+        display: flex;
+        flex-direction: row;
+    }
+}
+.ant-form-item {
+    margin-bottom: 10px!important;
+    .ant-form-item-label {
+        padding: 0!important;
+    }
+}
+.ant-checkbox-group {
+    flex-wrap: wrap;
+    gap: 0 10px;
+    label {
+        margin: 0!important;
+    }
+}
+.ant-form-item-control-input-content {
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+        width: auto;
+    }
+    .ant-picker {
+        padding: 4px 6px;
+        width: 120px;
+    }
+}
+.ant-input-affix-wrapper, .ant-input {
+    padding: 4px 6px;
+}
+.popover-wrap {
+    max-width: 300px;
+    p {
+        margin: 5px 0;
+        line-height: calc(#{$font-m} + 2px);
+        span {
+            font-weight: 600;
+        }
+    }
+    ul {
+        padding-left: 15px;
+    }
+}
+
+.ant-modal-body::-webkit-scrollbar { width: 5px; height: 7px; }
+.ant-modal-body::-webkit-scrollbar-thumb { background-color: #bbb; border-radius: 5px; }
+.ant-modal-body::-webkit-scrollbar-track { background-color: #ececec; border-radius: 5px; }
+
+/* no-data */
+.no-schedule-wrap {
+    text-align: center;
+    margin: 25px auto;
+}
+
+/* loading */
+.ant-skeleton-input {
+    height: 16px!important;
+}
+.ant-skeleton-button, .ant-skeleton-input-sm {
+    height: 20px!important;
+}
+.ant-skeleton-avatar {
+    height: 16px!important;
+    width: 16px!important;
+}
+.loading-wrap {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    .loading-time {
+        flex: 0 1 80px;
+        .ant-skeleton-input {
+            min-width: 80px!important;
+            width: 80px!important;
+        }
+    }
+    .loading-content {
+        flex-grow: 1;
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+        .loading-type {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .loading-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            .ant-skeleton-input {
+                width: 50%!important;
+            }
+            .ant-skeleton-input-sm {
+                width: 70%!important;
+            }
+        }
+    }
+}
+
+/* error */
+.error-wrap {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .ant-result-extra {
+            margin-top: 10px;
+        }
+    }
+    .error-button {
+        margin-top: 20px;
+    }
+    .ant-result-title {
+        font-weight: 600;
+    }
+}

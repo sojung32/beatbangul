@@ -1,0 +1,36 @@
+logging.level.org:
+      hibernate:
+        type.descriptor.sql: DEBUG
+        SQL: DEBUG
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/beatbangul
+    username: melody
+    password: beat!@34
+
+mybatis:
+  type-aliases-package: com.melody.beatbangul
+  mapper-locations: classpath:mapper/*.xml
+  config-location: classpath:mybatis-config.xml
+
+oauth:
+  kakao:
+    authUrl: https://kauth.kakao.com/oauth/authorize
+    tokenUrl: https://kauth.kakao.com/oauth/token
+    infoUrl: https://kapi.kakao.com/v2/user/me
+    clientId: kakaoclientid
+    clientSecret: kakaoclientsecret
+    redirectUrl: https://beatbangul.com/login/kakao
+  naver:
+    authUrl: https://nid.naver.com/oauth2.0/authorize
+    tokenUrl: https://nid.naver.com/oauth2.0/token
+    infoUrl: https://openapi.naver.com/v1/nid/me
+    clientId: naverclientid
+    clientSecret: naverclientsecret
+    state: naverstate
+    redirectUrl: https://beatbangul.com/login/naver
+
+jwt:
+  secret.key: jwtsecretkey
