@@ -28,6 +28,8 @@
 <img src="https://img.shields.io/badge/antDesign-0170FE?style=for-the-badge&logo=antDesign&logoColor=white"> <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 <img src="https://img.shields.io/badge/sass-CC6699?style=for-the-badge&logo=sass&logoColor=white">
 
+<img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white">
+
 ### Environment
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/intellij%20idea-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
 <img src="https://img.shields.io/badge/visual%20studio%20code-007ACC?style=for-the-badge&logo=visualStudioCode&logoColor=white">
@@ -37,7 +39,7 @@
 ## 💻화면 구성
 |메인|스케줄|
 |:--:|:--:|
-|![빗방울1](https://github.com/sojung32/beatbangul/assets/56745491/118736e1-3932-4e83-b567-1a2266eeaaaa)|![빗방울2](https://github.com/sojung32/beatbangul/assets/56745491/dce4ae1c-85a3-48c2-a1fe-8410db392a3d)|
+|![beatbangul1](https://github.com/sojung32/beatbangul/assets/56745491/a90394ca-5d1a-4cda-9ae8-4d292f32f7d0)|![beatbangul2](https://github.com/sojung32/beatbangul/assets/56745491/51eb1313-d37d-4dc0-ade5-2cf8abc515a9)|
 
 <br/>
 
