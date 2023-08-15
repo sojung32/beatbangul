@@ -26,10 +26,12 @@ const Calendar = () => {
     const defaultDate = dayjs(initDate, 'YYYY-MM-DD');
     const [dateTitle, setDateTitle] = useState(initMonth);
     const [datePicker, setDatePicker] = useState();
-    const [eventDateList, setEventDate] = useState([]);
+    const [schedDateList, setSchedDate] = useState([]);
+    const [youtubeDateList, setYoutubeDate] = useState([]);
+    const [allDateList, setAllDate] = useState([]);
 
     const [events, setEventArea] = useState(null);
-    const [selectDate, setSelectDate] = useState(null);
+    const [selectDate, setSelectDate] = useState(today.getFullYear() + '년 ' + (today.getMonth() < 9 ? '0' : '') + (today.getMonth() + 1) + '월 ' + today.getDate() + '일');
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -54,8 +56,14 @@ const Calendar = () => {
         let calDate = dayjs.year() + '-' + (dayjs.month() < 9 ? '0' : '') + (dayjs.month()+1) + '-' + (dayjs.date() < 10 ? '0' : '') + dayjs.date();
         let sched;
 
-        if(eventDateList.includes(calDate)) {
+        if(schedDateList.includes(calDate)) {
             sched = <box-icon type="solid" name="droplet" animation="fade-down-hover" color={`${process.env.REACT_APP_MAIN_COLOR}`} size="18px"/>;
+        }
+        if(allDateList.includes(calDate)) {
+            sched = <box-icon type="solid" name="droplet" animation="fade-down-hover" color="#9575CD" size="18px"/>;
+        }
+        if(youtubeDateList.includes(calDate)) {
+            sched = <box-icon type="solid" name="droplet" animation="fade-down-hover" color="#F06292" size="18px"/>;
         }
 
         return (
@@ -84,10 +92,18 @@ const Calendar = () => {
                     throw new Error("response error");
                 } else {
                     const data = await response.json();
-                    const dateList = data.calendar.map(item => {
+                    const schedList = data.schedule.schedule.map(item => {
                         return item.date;
-                    })
-                    setEventDate(dateList);
+                    });
+                    const youtubeList = data.schedule.youtube.map(item => {
+                        return item.date;
+                    });
+                    const allList = data.schedule.all.map(item => {
+                        return item.date;
+                    });
+                    setSchedDate(schedList);
+                    setYoutubeDate(youtubeList);
+                    setAllDate(allList);
                 }
             } catch(error) {
                 message.warning('오류가 발생했어요');

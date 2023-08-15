@@ -3,7 +3,7 @@ import React from 'react';
 import 'boxicons';
 import { Timeline } from 'antd';
 import ScheduleItem from './ScheduleItem';
-import { HeartFilled, StarFilled, CalendarOutlined } from '@ant-design/icons';
+import { HeartFilled, StarFilled, CalendarOutlined, YoutubeFilled } from '@ant-design/icons';
 
 const TimeLineItemSet = (props) => {
     const fixed = props.fixed && props.fixed != null ? props.fixed : false;
@@ -11,6 +11,7 @@ const TimeLineItemSet = (props) => {
     const fixedSchedule = schedules && schedules.fixed ? schedules.fixed : null;
     const schedule = schedules && schedules.schedule ? schedules.schedule : null;
     const anniversary = schedules && schedules.anniversary ? schedules.anniversary : null;
+    const youtube = schedules && schedules.youtube ? schedules.youtube : null;
     const birthday = schedules && schedules.birthday ? schedules.birthday : null;
     const deleteFunction = props.delete ? props.delete : null;
     const reloadFunction = props.reloadFunction ? props.reloadFunction : null;
@@ -31,6 +32,8 @@ const TimeLineItemSet = (props) => {
                             title={fixedSchedule[idx].title} 
                             category={fixedSchedule[idx].category}
                             categoryName={fixedSchedule[idx].categoryName}
+                            categoryColor={fixedSchedule[idx].categoryColor}
+                            categoryBack={fixedSchedule[idx].categoryBackcolor}
                             time={fixedSchedule[idx].time}
                             day={fixedSchedule[idx].day}
                             week={fixedSchedule[idx].week}
@@ -75,6 +78,8 @@ const TimeLineItemSet = (props) => {
                             date={schedule[idx].date}
                             category={schedule[idx].category}
                             categoryName={schedule[idx].categoryName}
+                            categoryColor={schedule[idx].categoryColor}
+                            categoryBack={schedule[idx].categoryBackcolor}
                             time={schedule[idx].time}
                             note={schedule[idx].note}
                             link={schedule[idx].link}
@@ -109,7 +114,20 @@ const TimeLineItemSet = (props) => {
                         />
             });
         }
-    
+        for(const idx in youtube) {
+            items.push({
+                color: '#c4302b',
+                dot: <YoutubeFilled />,
+                children: <ScheduleItem 
+                            fixed={false}
+                            sched={false}
+                            youtube={true}
+                            title={youtube[idx].title}
+                            link={youtube[idx].link}
+                        />,
+                className: 'youtube',
+            });
+        }
     }
 
     return items;

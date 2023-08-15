@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.melody.beatbangul.youtube.mapper.YoutubeMapper">
+
+    <select id="selectYoutubeLinkedChannelList" resultType="MyMap">
+        SELECT
+            CHANNEL_ID
+            , CHANNEL_NAME
+            , TAG_CHECK_YN
+        FROM
+            TB_YOUTUBE_CHANNEL
+        WHERE
+            USE_YN = 'Y'
+    </select>
+
+    <insert id="insertYoutube" parameterType="Youtube">
+        INSERT INTO TB_YOUTUBE (
+            YOUTUBE_ID
+            , YOUTUBE_CHANNEL_ID
+            , YOUTUBE_TITLE
+            , YOUTUBE_LINK
+            , YOUTUBE_DT
+            , CREATE_DT
+        ) VALUES (
+            #{youtubeId}
+            , #{youtubeChannelId}
+            , #{youtubeTitle}
+            , #{youtubeLink}
+            , DATE_FORMAT(#{youtubeDt}, '%Y-%m-%d %T')
+            , current_timestamp()
+        )
+        ON DUPLICATE KEY UPDATE
+            YOUTUBE_TITLE = #{youtubeTitle}
+    </insert>
+
+</mapper>

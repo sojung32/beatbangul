@@ -10,7 +10,9 @@
             , TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
             , TO_CHAR(SCHEDULE_TIME, 'HH24:MI') TIME
             , SCHEDULE_CATEGORY CATEGORY
-            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , TC.CODE_NAME  CATEGORY_NAME
+            , TC.CODE_COLOR CATEGORY_COLOR
+            , TC.CODE_BACKGROUND CATEGORY_BACKCOLOR
             , SCHEDULE_TITLE TITLE
             , SCHEDULE_LINK LINK
             , SCHEDULE_NOTE NOTE
@@ -21,7 +23,11 @@
             , SCHEDULE_DG SDG
             , SCHEDULE_SJ YSJ
         FROM
-            TB_SCHEDULE
+            TB_SCHEDULE TS
+        LEFT OUTER JOIN
+            TB_CODE TC
+            ON TS.SCHEDULE_CATEGORY = TC.DETAIL_CODE
+            AND GROUP_CODE = 'CATE'
         WHERE
             SCHEDULE_ID = #{id}
     </select>
@@ -36,7 +42,9 @@
             , SCHEDULE_DAY DAY
             , SCHEDULE_WEEK WEEK
             , SCHEDULE_CATEGORY CATEGORY
-            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , TC.CODE_NAME  CATEGORY_NAME
+            , TC.CODE_COLOR CATEGORY_COLOR
+            , TC.CODE_BACKGROUND CATEGORY_BACKCOLOR
             , SCHEDULE_TITLE TITLE
             , SCHEDULE_NOTE NOTE
             , SCHEDULE_EK SEK
@@ -46,7 +54,11 @@
             , SCHEDULE_DG SDG
             , SCHEDULE_SJ YSJ
         FROM
-            TB_FIXED_SCHEDULE
+            TB_FIXED_SCHEDULE TFS
+        LEFT OUTER JOIN
+            TB_CODE TC
+            ON TFS.SCHEDULE_CATEGORY = TC.DETAIL_CODE
+            AND GROUP_CODE = 'CATE'
         WHERE
             SCHEDULE_ID = #{id}
     </select>
@@ -74,7 +86,9 @@
             , TO_CHAR(SCHEDULE_TIME, 'HH24:MI') TIME
             , getDayName(SCHEDULE_DAY) DAY
             , CASE WHEN SCHEDULE_WEEK IS NULL THEN NULL ELSE getWeekName(SCHEDULE_WEEK) END WEEK
-            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , TC.CODE_NAME  CATEGORY_NAME
+            , TC.CODE_COLOR CATEGORY_COLOR
+            , TC.CODE_BACKGROUND CATEGORY_BACKCOLOR
             , SCHEDULE_CATEGORY CATEGORY
             , SCHEDULE_TITLE TITLE
             , SCHEDULE_NOTE NOTE
@@ -85,7 +99,11 @@
             , SCHEDULE_DG SDG
             , SCHEDULE_SJ YSJ
         FROM
-            TB_FIXED_SCHEDULE
+            TB_FIXED_SCHEDULE TFS
+        LEFT OUTER JOIN
+            TB_CODE TC
+            ON TFS.SCHEDULE_CATEGORY = TC.DETAIL_CODE
+            AND GROUP_CODE = 'CATE'
         WHERE
             SCHEDULE_START_DATE <![CDATA[ <= ]]> current_date()
             AND (SCHEDULE_END_DATE >= current_date() OR SCHEDULE_END_DATE IS NULL)
@@ -134,7 +152,9 @@
             , TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
             , TO_CHAR(SCHEDULE_TIME, 'HH24:MI') TIME
             , SCHEDULE_CATEGORY CATEGORY
-            , (SELECT CODE_NAME FROM TB_CODE WHERE GROUP_CODE = 'CATE' AND DETAIL_CODE = SCHEDULE_CATEGORY) CATEGORY_NAME
+            , TC.CODE_NAME  CATEGORY_NAME
+            , TC.CODE_COLOR CATEGORY_COLOR
+            , TC.CODE_BACKGROUND CATEGORY_BACKCOLOR
             , SCHEDULE_TITLE TITLE
             , SCHEDULE_LINK LINK
             , SCHEDULE_NOTE NOTE
@@ -145,7 +165,11 @@
             , SCHEDULE_DG SDG
             , SCHEDULE_SJ YSJ
         FROM
-            TB_SCHEDULE
+            TB_SCHEDULE TS
+        LEFT OUTER JOIN
+            TB_CODE TC
+            ON TS.SCHEDULE_CATEGORY = TC.DETAIL_CODE
+            AND GROUP_CODE = 'CATE'
         WHERE
             TO_CHAR(SCHEDULE_DATE, 'YYYYMMDD') = TO_CHAR(#{date}, 'YYYYMMDD')
         ORDER BY
@@ -169,6 +193,111 @@
         WHERE
             SCHEDULE_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
             AND SCHEDULE_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        UNION
+        SELECT
+            DISTINCT TO_CHAR(YOUTUBE_DT, 'YYYY-MM-DD') DATE
+        FROM
+            TB_YOUTUBE
+        WHERE
+            YOUTUBE_DT >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND YOUTUBE_DT <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+            AND USE_YN = 'Y'
+        ORDER BY
+            DATE
+    </select>
+
+    <!-- 월별 스케줄 여부 조회 : 달력 보기 - 스케줄만 존재 -->
+    <select id="selectScheduleCalendarSchedule" parameterType="String" resultType="MyMap">
+        SELECT
+            DISTINCT TO_CHAR(ANNIVERSARY_DATE, 'YYYY-MM-DD') DATE
+        FROM
+            TB_ANNIVERSARY
+        WHERE
+            ANNIVERSARY_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND ANNIVERSARY_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        UNION
+        SELECT
+            DISTINCT TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
+        FROM
+            TB_SCHEDULE
+        WHERE
+            SCHEDULE_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND SCHEDULE_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        EXCEPT
+        SELECT
+            DISTINCT TO_CHAR(YOUTUBE_DT, 'YYYY-MM-DD') DATE
+        FROM
+            TB_YOUTUBE
+        WHERE
+            YOUTUBE_DT >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND YOUTUBE_DT <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+            AND USE_YN = 'Y'
+        ORDER BY
+            DATE
+    </select>
+
+    <!-- 월별 스케줄 여부 조회 : 달력 보기 - 유튜브, 스케줄 모두 존재 -->
+    <select id="selectScheduleCalendarAll" parameterType="String" resultType="MyMap">
+        SELECT
+            Y.DATE
+        FROM (
+            SELECT
+                DISTINCT TO_CHAR(YOUTUBE_DT, 'YYYY-MM-DD') DATE
+            FROM
+                TB_YOUTUBE
+            WHERE
+                YOUTUBE_DT >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+                AND YOUTUBE_DT <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+                AND USE_YN = 'Y'
+        ) Y
+        INNER JOIN (
+            SELECT
+                DISTINCT TO_CHAR(ANNIVERSARY_DATE, 'YYYY-MM-DD') DATE
+            FROM
+                TB_ANNIVERSARY
+            WHERE
+                ANNIVERSARY_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+                AND ANNIVERSARY_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+            UNION
+            SELECT
+                DISTINCT TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
+            FROM
+                TB_SCHEDULE
+            WHERE
+                SCHEDULE_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+                AND SCHEDULE_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        ) S ON Y.DATE = S.DATE
+        ORDER BY
+            Y.DATE
+    </select>
+
+    <!-- 월별 스케줄 여부 조회 : 달력 보기 - 유튜브만 존재 -->
+    <select id="selectScheduleCalendarYoutube" parameterType="String" resultType="MyMap">
+        SELECT
+            DISTINCT TO_CHAR(YOUTUBE_DT, 'YYYY-MM-DD') DATE
+        FROM
+            TB_YOUTUBE
+        WHERE
+            YOUTUBE_DT >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND YOUTUBE_DT <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+            AND USE_YN = 'Y'
+        EXCEPT (
+        SELECT
+            DISTINCT TO_CHAR(ANNIVERSARY_DATE, 'YYYY-MM-DD') DATE
+        FROM
+            TB_ANNIVERSARY
+        WHERE
+            ANNIVERSARY_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND ANNIVERSARY_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        UNION
+        SELECT
+            DISTINCT TO_CHAR(SCHEDULE_DATE, 'YYYY-MM-DD') DATE
+        FROM
+            TB_SCHEDULE
+        WHERE
+            SCHEDULE_DATE >= ADDDATE(DATE_FORMAT(#{date}, '%Y%m%d'), -WEEKDAY(DATE_FORMAT(#{date}, '%Y%m%d')) - 1)
+            AND SCHEDULE_DATE <![CDATA[ <= ]]> ADDDATE(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7), -WEEKDAY(ADDDATE(LAST_DAY(DATE_FORMAT(#{date}, '%Y%m%d')), 7)) + 5)
+        )
         ORDER BY
             DATE
     </select>

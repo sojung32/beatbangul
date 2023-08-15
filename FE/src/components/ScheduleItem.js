@@ -10,6 +10,7 @@ const ScheduleItem = (props) => {
 
     const fixed = props.fixed != null ? props.fixed : false;
     const sched = props.sched != null ? props.sched : true;
+    const youtube = props.youtube != null ? props.youtube : false;
     const id = props.id ? props.id : null;
     const type = props.type ? props.type : null;
     const day = props.day ? props.day : null;
@@ -19,6 +20,8 @@ const ScheduleItem = (props) => {
     const title = props.title ? props.title : null;
     const category = props.category ? props.category : null;
     const categoryName = props.categoryName ? props.categoryName : null;
+    const categoryColor = props.categoryColor ? props.categoryColor : null;
+    const categoryBack = props.categoryBack ? props.categoryBack : null;
     const note = props.note ? props.note : null;
     const link = props.link ? props.link : null;
     const sek = props.sek ? props.sek : 'N';
@@ -33,26 +36,6 @@ const ScheduleItem = (props) => {
     const dateTitle = props.dateTitle ? props.dateTitle : null;
 
     const [updateOpen, setUpdateModalOpen] = useState(false);
-
-    let cateStyle;
-    try {
-        const categoryItems = JSON.parse(window.sessionStorage.getItem("category")).list;
-    
-        const categoryStyles = new Map();
-        categoryItems.map(cate => {
-            let border, padding;
-            if(cate.background.toLowerCase().startsWith('#fff') || cate.background === 'white') {
-                border = `2px solid ${cate.color}`
-                padding = '0px 8px'
-            }
-            categoryStyles.set(cate.code, {color: cate.color, backgroundColor: cate.background, border: border, padding: padding});
-        });
-
-        cateStyle = categoryStyles.get(category);
-
-    } catch(error) {
-        message.warning('오류가 발생했어요');
-    }
 
     // 수정 팝업
     const showUpdateModal = async () => {
@@ -114,7 +97,7 @@ const ScheduleItem = (props) => {
             message.warning('오류가 발생했어요');
         }
     }
-
+    
     const ButtonList = (props) => {
         return (
             <div className="edit-button-list">
@@ -151,7 +134,7 @@ const ScheduleItem = (props) => {
                     <div className="schedule-time">{week ? <>{week}<br/></> : (day === '매일' ? null : <>매주<br/></>)}{day}<br/>{time}</div>
                     <div className="schedule-content">
                         <div className="schedule-feature">
-                            <div className="schedule-category" style={cateStyle}>{categoryName}</div>
+                            <div className="schedule-category" style={{color: categoryColor, backgroundColor: categoryBack}}>{categoryName}</div>
                             <div className="schedule-member">
                                 {sek === 'Y' && '😺'}
                                 {lmh === 'Y' && '🐿️'}
@@ -188,7 +171,7 @@ const ScheduleItem = (props) => {
                     <div className="schedule-content">
                         {sched ?
                             <div className="schedule-feature">
-                                <div className="schedule-category" style={cateStyle}>{categoryName}</div>
+                                <div className="schedule-category" style={{color: categoryColor, backgroundColor: categoryBack}}>{categoryName}</div>
                                 <div className="schedule-member">
                                     {sek === 'Y' && '😺'}
                                     {lmh === 'Y' && '🐿️'}
@@ -201,12 +184,18 @@ const ScheduleItem = (props) => {
                             : null
                         }
                         <div className="schedule-main">
-                            <div className="schedule-title">{title}</div>
-                            {link ?
-                                <Button className="link-button" type="link" size="small" shape="circle" onClick={openWindow} icon={<LinkOutlined/>} />
-                                : null
+                            {youtube ? 
+                                <a href={link} target="_blank" className="schedule-youtube">{title}</a>
+                                :
+                                <>
+                                    <div className="schedule-title">{title}</div>
+                                    {link ?
+                                        <Button className="link-button" type="link" size="small" shape="circle" onClick={openWindow} icon={<LinkOutlined/>} />
+                                        : null
+                                    }
+                                    {id && auth.isLoggedIn ? <ButtonList id={id} type={type}/> : null}
+                                </>
                             }
-                            {id && auth.isLoggedIn ? <ButtonList id={id} type={type}/> : null}
                         </div>
                         {note ? 
                             <div className="schedule-note">{note}</div>

@@ -80,6 +80,7 @@ public class ScheduleController {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("month", month);
         resultMap.put("calendar", scheduleService.getScheduleListOfMonth(month + "01"));
+        resultMap.put("schedule", scheduleService.getScheduleListOfMonthByType(month + "01"));
 
         return resultMap;
     }

@@ -39,14 +39,26 @@
 ## 💻화면 구성
 |메인|스케줄|
 |:--:|:--:|
+|![beatbangul1](https://github.com/sojung32/beatbangul/assets/56745491/a90394ca-5d1a-4cda-9ae8-4d292f32f7d0)|<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fbnj562%2Fbtsq69EiWdv%2Fio3NzsFww6p1Vgv2wwfMG1%2Fimg.png"/>|
+
+<details>
+<summary>이전 버전</summary>
+
+|메인|스케줄|
+|:--:|:--:|
 |![beatbangul1](https://github.com/sojung32/beatbangul/assets/56745491/a90394ca-5d1a-4cda-9ae8-4d292f32f7d0)|![beatbangul2](https://github.com/sojung32/beatbangul/assets/56745491/51eb1313-d37d-4dc0-ade5-2cf8abc515a9)|
+</details>
 
 <br/>
 
 ## 👻History
-### version 1.0
-* 스케줄/고정 스케줄/기념일 등록/수정/조회
-* 공지사항
+### version 2.0
+* 유튜브 연동 기능 추가
+* 스케줄 월별 조회 시 색상 구분
 
 ### version 1.1
 * 고정 스케줄 특정 주 반복 기능 추가
+
+### version 1.0
+* 스케줄/고정 스케줄/기념일 등록/수정/조회
+* 공지사항

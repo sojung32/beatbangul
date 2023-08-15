@@ -3,6 +3,7 @@ package com.melody.beatbangul.schedule.service;
 import com.melody.beatbangul.common.model.MyMap;
 import com.melody.beatbangul.schedule.mapper.ScheduleMapper;
 import com.melody.beatbangul.schedule.model.ScheduleDTO;
+import com.melody.beatbangul.youtube.mapper.YoutubeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class ScheduleService {
 
     @Autowired
     ScheduleMapper scheduleMapper;
+
+    @Autowired
+    YoutubeMapper youtubeMapper;
 
     public MyMap getScheduleInfoById(int scheduleId) {
         return scheduleMapper.selectScheduleInfoById(scheduleId).orElse(null);
@@ -37,6 +41,7 @@ public class ScheduleService {
         map.put("birthday", scheduleMapper.selectBirthDayListByDate(date));
         map.put("schedule", scheduleMapper.selectScheduleListByDate(date));
         map.put("anniversary", scheduleMapper.selectAnniversaryListByDate(date));
+        map.put("youtube", youtubeMapper.selectYoutubeListByDate(date));
         map.put("date", date);
 
         return map;
@@ -44,6 +49,14 @@ public class ScheduleService {
 
     public List<MyMap> getScheduleListOfMonth(String month) {
         return scheduleMapper.selectScheduleCalendar(month);
+    }
+
+    public Map<String, Object> getScheduleListOfMonthByType(String month) {
+        Map<String, Object> schedules = new HashMap<>();
+        schedules.put("schedule", scheduleMapper.selectScheduleCalendarSchedule(month));
+        schedules.put("all", scheduleMapper.selectScheduleCalendarAll(month));
+        schedules.put("youtube", scheduleMapper.selectScheduleCalendarYoutube(month));
+        return schedules;
     }
 
     public int saveSchedule(ScheduleDTO schedule) {

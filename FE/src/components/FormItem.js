@@ -99,8 +99,31 @@ const FormItem = (props) => {
     }
 
     // 스케줄 카테고리
-    const [categoryList, setCategory] = useState(JSON.parse(window.sessionStorage.getItem("category")).list);
+    const [categoryList, setCategory] = useState([]);
+    const [getCategory, setGetGategory] = useState(false);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            setSpinnerShow(true);
+            try {
+                const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/manage/code/list?code=CATE', {method: 'GET'});
 
+                if(!response.ok) {
+                    message.warning('오류가 발생했어요');
+                } else {
+                    const data = await response.json();
+                    setCategory(data.list);
+                    setGetGategory(true);
+                }
+            } catch(error) {
+                message.warning('오류가 발생했어요');
+                alert(error);
+            }
+            setSpinnerShow(false);
+        }
+
+        fetchCategories();
+    }, [getCategory]);
+    
     // datepicker 선택 불가
     const [rangeStartDate, setRangeStartDate] = useState(modify ? dayjs(selectItems.startDate, 'YYYY-MM-DD') : null);
     const [rangeEndDate, setRangeEndDate] = useState(modify  && selectItems.endDate ? dayjs(selectItems.endDate, 'YYYY-MM-DD') : null);

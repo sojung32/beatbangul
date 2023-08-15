@@ -152,6 +152,9 @@
         right: 5px;
         color: $color-main;
     }
+    .ant-picker-clear {
+        display: none;
+    }
 }
 
 .time-list {
@@ -278,6 +281,10 @@
                 font-size: 1rem;
                 margin-right: 4px;
             }
+            .schedule-youtube {
+                font-weight: 600;
+                line-height: 1.5rem;
+            }
             .edit-button-list {
                 flex: 0 0;
                 display: flex;
@@ -295,6 +302,11 @@
             color: #aaa;
         }
     }
+}
+
+/* youtube item */
+.ant-timeline-item.youtube {
+    padding-bottom: 10px;
 }
 
 /* form */

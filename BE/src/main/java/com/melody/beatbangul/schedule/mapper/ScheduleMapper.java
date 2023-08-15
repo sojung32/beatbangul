@@ -20,6 +20,9 @@ public interface ScheduleMapper {
     List<MyMap> selectAnniversaryListByDate(String date);
     List<MyMap> selectScheduleListByDate(String date);
     List<MyMap> selectScheduleCalendar(String date);
+    List<MyMap> selectScheduleCalendarSchedule(String date);
+    List<MyMap> selectScheduleCalendarAll(String date);
+    List<MyMap> selectScheduleCalendarYoutube(String date);
 
     /* 삽입 */
     int insertSchedule(ScheduleDTO schedule);

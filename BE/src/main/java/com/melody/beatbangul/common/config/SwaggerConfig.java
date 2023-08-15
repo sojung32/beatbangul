@@ -24,6 +24,6 @@ public class SwaggerConfig {
                 .components(new Components())
                 .info(new Info().title("빗방울 API 명세서")
                         .description("비투비 스케줄 모음 빗방울의 API 명세서입니다.")
-                        .version("v1.1"));
+                        .version("v2.0"));
     }
 }
